@@ -50,12 +50,16 @@ def print_performance(metrics):
 
 ################## TRAINIGN ROUTINE ##################
 
-def train_network(network, epochs, train_dataloader, valid_dataloader, loss_fn, optimizer, save_last_model = False, save_best_model = False):#, notebook = False):
+def train_network(network, epochs, train_dataloader, valid_dataloader, loss_fn, optimizer, save_last_model = False, save_best_model = False, device = None):#, notebook = False):
 
     # Keeps track of the best model's performance
     best_accuracy = - np.inf
     # Sotres the metrics history during the training
     metrics_history = pd.DataFrame(columns=['epoch', 'train_loss', 'train_acc', 'valid_loss', 'valid_acc'])
+
+    # Sends the network to the device
+    if device:
+        network.to(device)
 
     # Training loop
     for epoch in range(epochs):
@@ -72,6 +76,9 @@ def train_network(network, epochs, train_dataloader, valid_dataloader, loss_fn, 
             #print_training_progress(epoch, len(train_dataloader), batch_num)
             # Gets the data
             images, labels = data
+            # Sends the data to the device
+            if device:
+                images, labels = inputs.to(device), labels.to(device)
             # training step
             optimizer.zero_grad()
             output = network(images)
