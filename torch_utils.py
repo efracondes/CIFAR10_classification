@@ -88,7 +88,7 @@ def train_network(network, epochs, train_dataloader, valid_dataloader, loss_fn, 
 
     # Keeps track of the best model's performance
     best_accuracy = - np.inf
-    # Sotres the metrics history during the training
+    # Stores the training history during
     training_history = pd.DataFrame(columns=['epoch', 'train_loss', 'train_acc', 'valid_loss', 'valid_acc'])
 
     # Sends the network to the device
