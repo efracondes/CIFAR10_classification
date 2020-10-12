@@ -84,7 +84,7 @@ def evaluate(network, dataloader, loss_fn, device = None):
 
 ################## TRAINIGN ROUTINE ##################
 
-def train_network(network, epochs, train_dataloader, valid_dataloader, loss_fn, optimizer, save_last_model = False, save_best_model = False, device = None, save_history = True):#, notebook = False):
+def train_network(network, epochs, train_dataloader, valid_dataloader, loss_fn, optimizer, save_last_model = False, save_best_model = False, device = None, save_history = True):
 
     # Keeps track of the best model's performance
     best_accuracy = - np.inf
