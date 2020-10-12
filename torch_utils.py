@@ -84,12 +84,12 @@ def evaluate(network, dataloader, loss_fn, device = None):
 
 ################## TRAINIGN ROUTINE ##################
 
-def train_network(network, epochs, train_dataloader, valid_dataloader, loss_fn, optimizer, save_last_model = False, save_best_model = False, device = None):#, notebook = False):
+def train_network(network, epochs, train_dataloader, valid_dataloader, loss_fn, optimizer, save_last_model = False, save_best_model = False, device = None, save_history = True):#, notebook = False):
 
     # Keeps track of the best model's performance
     best_accuracy = - np.inf
     # Sotres the metrics history during the training
-    metrics_history = pd.DataFrame(columns=['epoch', 'train_loss', 'train_acc', 'valid_loss', 'valid_acc'])
+    training_history = pd.DataFrame(columns=['epoch', 'train_loss', 'train_acc', 'valid_loss', 'valid_acc'])
 
     # Sends the network to the device
     if device:
@@ -132,15 +132,17 @@ def train_network(network, epochs, train_dataloader, valid_dataloader, loss_fn, 
         valid_loss, valid_acc = evaluate(
                                     network=network, 
                                     dataloader=valid_dataloader, 
-                                    loss_fn=loss_fn
+                                    loss_fn=loss_fn,
+                                    device=device
                                     )
 
         # Saves the metrics per epoch
         metrics_epoch = {'epoch': epoch, 'train_loss': train_loss, 'train_acc': train_acc, 'valid_loss': valid_loss, 'valid_acc': valid_acc}
         # Stores the epoch's metrics
-        metrics_history = metrics_history.append(metrics_epoch, ignore_index = True)
+        training_history = training_history.append(metrics_epoch, ignore_index = True)
         # Saves the metrics history so far
-        metrics_history.to_csv('metrics_history.csv', index = False)
+        if save_history:
+            training_history.to_csv('training_history.csv', index = False)
         # Print the performance for the epoch
         print_performance(metrics_epoch)
         # Saves the model
@@ -154,4 +156,4 @@ def train_network(network, epochs, train_dataloader, valid_dataloader, loss_fn, 
     print('Finished Training, Hurray!!! :D')
     
     # Returns the network and the metrics history
-    return network, metrics_history
+    return network, training_history
