@@ -140,7 +140,7 @@ def train_network(network, epochs, train_dataloader, valid_dataloader, loss_fn, 
         metrics_epoch = {'epoch': epoch, 'train_loss': train_loss, 'train_acc': train_acc, 'valid_loss': valid_loss, 'valid_acc': valid_acc}
         # Stores the epoch's metrics
         training_history = training_history.append(metrics_epoch, ignore_index = True)
-        # Saves the metrics history so far
+        # Saves the training history so far
         if save_history:
             training_history.to_csv('training_history.csv', index = False)
         # Print the performance for the epoch
@@ -155,5 +155,5 @@ def train_network(network, epochs, train_dataloader, valid_dataloader, loss_fn, 
             
     print('Finished Training, Hurray!!! :D')
     
-    # Returns the network and the metrics history
+    # Returns the network and the trainig history
     return network, training_history
